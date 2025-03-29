@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Name | Elegant Dining</title>
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-secondary: #FFD700;
+            --gold-light: #F5F5DC;
+            --dark-brown: #3A2718;
+            --cream: #FFF8E7;
+            --black: #000000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        body {
+            background-color: var(--cream);
+            color: var(--dark-brown);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: rgba(0, 0, 0, 0.85);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            color: var(--gold-primary);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 15px;
+        }
+        
+        nav a {
+            color: var(--gold-light);
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--gold-secondary);
+            border-bottom: 2px solid var(--gold-secondary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: var(--gold-secondary);
+            text-shadow: 2px 2px 4px var(--black);
+        }
+        
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 30px;
+            color: var(--gold-light);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--gold-primary);
+            color: var(--dark-brown);
+            padding: 12px 30px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 3px;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--gold-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background-color: var(--cream);
+        }
+        
+        .about-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .about-text {
+            flex: 1;
+            padding: 0 30px;
+        }
+        
+        .about-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .about-image img {
+            max-width: 100%;
+            border: 10px solid var(--gold-primary);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-title {
+            font-size: 42px;
+            color: var(--dark-brown);
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--gold-primary);
+        }
+        
+        /* Feature Section */
+        .features {
+            padding: 80px 0;
+            background-color: var(--dark-brown);
+            color: var(--gold-light);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid var(--gold-primary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            color: var(--gold-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--gold-primary);
+        }
+        
+        /* Menu Section */
+        .menu-page {
+            padding: 150px 0 80px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            color: var(--gold-light);
+            display: none;
+        }
+        
+        .menu-section {
+            margin-bottom: 60px;
+        }
+        
+        .menu-title {
+            text-align: center;
+            font-size: 48px;
+            color: var(--gold-secondary);
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px var(--black);
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .menu-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            border-radius: 5px;
+            border: 1px solid var(--gold-primary);
+        }
+        
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed var(--gold-primary);
+            padding-bottom: 10px;
+        }
+        
+        .menu-item-name {
+            font-size: 22px;
+            color: var(--gold-secondary);
+        }
+        
+        .menu-item-price {
+            font-size: 22px;
+            color: var(--gold-primary);
+        }
+        
+        .menu-item-description {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+        
+        /* Contact Section */
+        .contact-page {
+            padding: 150px 0 80px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            color: var(--gold-light);
+            display: none;
+        }
+        
+        .contact-inner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+        
+        .contact-info {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 5px;
+            border: 1px solid var(--gold-primary);
+        }
+        
+        .contact-form {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 5px;
+            border: 1px solid var(--gold-primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--gold-primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gold-primary);
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--gold-light);
+            border-radius: 3px;
+        }
+        
+        textarea.form-control {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-button {
+            background-color: var(--gold-primary);
+            color: var(--dark-brown);
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        .submit-button:hover {
+            background-color: var(--gold-secondary);
+        }
+        
+        .contact-details {
+            margin-top: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .contact-icon {
+            font-size: 24px;
+            color: var(--gold-secondary);
+            margin-right: 15px;
+        }
+        
+        /* Map */
+        .map {
+            height: 300px;
+            background-color: var(--gold-light);
+            margin-top: 30px;
+            border: 5px solid var(--gold-primary);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-brown);
+            color: var(--gold-light);
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            color: var(--gold-primary);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            color: var(--gold-light);
+            font-size: 24px;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--gold-secondary);
+        }
+        
+        .footer-nav {
+            margin: 20px 0;
+        }
+        
+        .footer-nav a {
+            color: var(--gold-light);
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+        
+        .footer-nav a:hover {
+            color: var(--gold-secondary);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--gold-light);
+            opacity: 0.8;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .about-inner {
+                flex-direction: column;
+            }
+            
+            .about-text, .about-image {
+                flex: none;
+                width: 100%;
+                margin-bottom: 30px;
+            }
+            
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Page Switching */
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        #home-page {
+            display: block;
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">RESTAURANT NAME</div>
+            <nav>
+                <a href="restaurant-landing-page.html" class="active" onclick="showPage('home-page')">Home</a>
+                <a href="restaurant-menu-page.html" onclick="showPage('menu-page')">Menu</a>
+                <a href="restaurant-contact-page.html" onclick="showPage('contact-page')">Contact</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Restaurant Name</h1>
+                <p>Experience the epitome of fine dining with our exquisite cuisine</p>
+                <div>
+                    <a href="#" class="cta-button" onclick="showPage('menu-page')">View Menu</a>
+                    <a href="#" class="cta-button" onclick="showPage('contact-page')">Reserve a Table</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="about">
+            <div class="container">
+                <div class="about-inner">
+                    <div class="about-text">
+                        <h2 class="section-title">Our Story</h2>
+                        <p>Welcome to Restaurant Name, where culinary excellence meets elegant ambiance. Established in 2010, we have been serving the finest dishes crafted with passion and precision.</p>
+                        <p>Our chef brings over 20 years of experience from around the world, combining traditional techniques with innovative approaches to create a dining experience that is nothing short of extraordinary.</p>
+                        <p>We pride ourselves on using only the freshest, locally-sourced ingredients to ensure that every dish not only tantalizes your taste buds but also tells a story of quality and craftsmanship.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="/api/placeholder/500/400" alt="Restaurant interior">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="features">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h3 class="feature-title">Exquisite Cuisine</h3>
+                        <p>Our menu features a curated selection of dishes prepared with the finest ingredients, offering a blend of traditional flavors and contemporary culinary techniques.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-wine-glass-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Premium Beverages</h3>
+                        <p>Complement your meal with our extensive collection of wines, craft cocktails, and non-alcoholic beverages, carefully selected to enhance your dining experience.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-concierge-bell"></i>
+                        </div>
+                        <h3 class="feature-title">Impeccable Service</h3>
+                        <p>Our attentive staff is dedicated to providing personalized service, ensuring that your time with us is memorable, comfortable, and exceeds your expectations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Menu Page -->
+    <div id="menu-page" class="page">
+        <section class="menu-page">
+            <div class="container">
+                <h2 class="menu-title">Our Menu</h2>
+                
+                <div class="menu-section">
+                    <h3 class="section-title">Appetizers</h3>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Truffle Arancini</div>
+                                <div class="menu-item-price">$18</div>
+                            </div>
+                            <div class="menu-item-description">Crispy risotto balls infused with black truffle, served with a saffron aioli</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Seared Scallops</div>
+                                <div class="menu-item-price">$22</div>
+                            </div>
+                            <div class="menu-item-description">Pan-seared scallops with cauliflower purée, crispy pancetta, and herb oil</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Foie Gras Torchon</div>
+                                <div class="menu-item-price">$26</div>
+                            </div>
+                            <div class="menu-item-description">House-made foie gras torchon with brioche toast, fig jam, and port wine reduction</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Heirloom Tomato Salad</div>
+                                <div class="menu-item-price">$16</div>
+                            </div>
+                            <div class="menu-item-description">Fresh heirloom tomatoes with burrata cheese, basil oil, and aged balsamic</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-section">
+                    <h3 class="section-title">Main Courses</h3>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Filet Mignon</div>
+                                <div class="menu-item-price">$48</div>
+                            </div>
+                            <div class="menu-item-description">8oz prime beef tenderloin with truffle mashed potatoes, roasted asparagus, and red wine jus</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Chilean Sea Bass</div>
+                                <div class="menu-item-price">$42</div>
+                            </div>
+                            <div class="menu-item-description">Pan-seared sea bass with saffron risotto, fennel confit, and champagne beurre blanc</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Rack of Lamb</div>
+                                <div class="menu-item-price">$46</div>
+                            </div>
+                            <div class="menu-item-description">Herb-crusted rack of lamb with rosemary polenta, ratatouille, and mint gremolata</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Wild Mushroom Risotto</div>
+                                <div class="menu-item-price">$32</div>
+                            </div>
+                            <div class="menu-item-description">Arborio rice cooked with wild mushrooms, white wine, parmesan, and truffle essence</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-section">
+                    <h3 class="section-title">Desserts</h3>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Crème Brûlée</div>
+                                <div class="menu-item-price">$14</div>
+                            </div>
+                            <div class="menu-item-description">Classic vanilla bean custard with caramelized sugar crust and fresh berries</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Chocolate Soufflé</div>
+                                <div class="menu-item-price">$16</div>
+                            </div>
+                            <div class="menu-item-description">Warm chocolate soufflé with Grand Marnier crème anglaise (Please allow 20 minutes)</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Tiramisu</div>
+                                <div class="menu-item-price">$14</div>
+                            </div>
+                            <div class="menu-item-description">Traditional Italian dessert with espresso-soaked ladyfingers, mascarpone cream, and cocoa</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <div class="menu-item-name">Artisanal Cheese Plate</div>
+                                <div class="menu-item-price">$22</div>
+                            </div>
+                            <div class="menu-item-description">Selection of fine cheeses with honey, fig jam, nuts, and artisanal crackers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Contact Page -->
+    <div id="contact-page" class="page">
+        <section class="contact-page">
+            <div class="container">
+                <h2 class="menu-title">Contact Us</h2>
+                
+                <div class="contact-inner">
+                    <div class="contact-info">
+                        <h3 class="section-title">Visit Us</h3>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div>123 Gourmet Avenue, Culinary District, City</div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                                <div>(555) 123-4567</div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                                <div>info@restaurantname.com</div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                                <div>
+                                    <p>Monday - Thursday: 5:00 PM - 10:00 PM</p>
+                                    <p>Friday - Saturday: 5:00 PM - 11:00 PM</p>
+                                    <p>Sunday: 4:00 PM - 9:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="map">
+                            <!-- Placeholder for map -->
+                            <div style="height: 100%; display: flex; align-items: center; justify-content: center; background-color: #e8e8e8; color: #666;">
+                                <p>Restaurant Location Map</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <h3 class="section-title">Make a Reservation</h3>
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" id="date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="time">Time</label>
+                                <input type="time" id="time" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="guests">Number of Guests</label>
+                                <input type="number" id="guests" class="form-control" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Special Requests</label>
+                                <textarea id="message" class="form-control"></textarea>
+                            </div>
+                            <button type="submit" class="submit-button">Reserve Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-logo">RESTAURANT NAME</div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-yelp"></i></a>
+            </div>
+            <div class="footer-nav">
+                <a href="#" onclick="showPage('home-page')">Home</a>
+                <a href="#" onclick="showPage('menu-page')">Menu</a>
+                <a href="#" onclick="showPage('contact-page')">Contact</a>
+            </div>
+            <div class="copyright">© 2025 Restaurant Name. All Rights Reserved.</div>
+        </div>
+    </footer>
+    
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Find link that matches the page and make it active
+            const activeLink = Array.from(document.querySelectorAll('nav a')).find(
+                link => link.getAttribute('onclick').includes(pageId)
+            );
+            
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>

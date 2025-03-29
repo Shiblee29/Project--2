@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Name | Elegant Dining</title>
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-secondary: #FFD700;
+            --gold-light: #F5F5DC;
+            --dark-brown: #3A2718;
+            --cream: #FFF8E7;
+            --black: #000000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        body {
+            background-color: var(--cream);
+            color: var(--dark-brown);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: rgba(0, 0, 0, 0.85);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            color: var(--gold-primary);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 15px;
+        }
+        
+        nav a {
+            color: var(--gold-light);
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--gold-secondary);
+            border-bottom: 2px solid var(--gold-secondary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: var(--gold-secondary);
+            text-shadow: 2px 2px 4px var(--black);
+        }
+        
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 30px;
+            color: var(--gold-light);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--gold-primary);
+            color: var(--dark-brown);
+            padding: 12px 30px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 3px;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--gold-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background-color: var(--cream);
+        }
+        
+        .about-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .about-text {
+            flex: 1;
+            padding: 0 30px;
+        }
+        
+        .about-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .about-image img {
+            max-width: 100%;
+            border: 10px solid var(--gold-primary);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-title {
+            font-size: 42px;
+            color: var(--dark-brown);
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--gold-primary);
+        }
+        
+        /* Feature Section */
+        .features {
+            padding: 80px 0;
+            background-color: var(--dark-brown);
+            color: var(--gold-light);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid var(--gold-primary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            color: var(--gold-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--gold-primary);
+        }
+        
+        /* Menu Section */
+        .menu-page {
+            padding: 150px 0 80px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            color: var(--gold-light);
+            display: none;
+        }
+        
+        .menu-section {
+            margin-bottom: 60px;
+        }
+        
+        .menu-title {
+            text-align: center;
+            font-size: 48px;
+            color: var(--gold-secondary);
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px var(--black);
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .menu-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            border-radius: 5px;
+            border: 1px solid var(--gold-primary);
+        }
+        
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed var(--gold-primary);
+            padding-bottom: 10px;
+        }
+        
+        .menu-item-name {
+            font-size: 22px;
+            color: var(--gold-secondary);
+        }
+        
+        .menu-item-price {
+            font-size: 22px;
+            color: var(--gold-primary);
+        }
+        
+        .menu-item-description {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+        
+        /* Enhanced Contact Section */
+        .contact-page {
+            padding: 150px 0 80px;
+            background: linear-gradient(rgba(58, 39, 24, 0.9), rgba(58, 39, 24, 0.9)), 
+                        url('/api/placeholder/1200/800') center/cover fixed;
+            color: var(--gold-light);
+            display: none;
+        }
+        
+        .contact-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .contact-info {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 5px;
+            border: 1px solid var(--gold-primary);
+        }
+        
+        .contact-form {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 5px;
+            border: 1px solid var(--gold-primary);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--gold-primary);
+            font-size: 18px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gold-primary);
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--gold-light);
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        
+        textarea.form-control {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-button {
+            background-color: var(--gold-primary);
+            color: var(--dark-brown);
+            border: none;
+            padding: 15px 35px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .submit-button:hover {
+            background-color: var(--gold-secondary);
+        }
+        
+        .contact-details {
+            margin-top: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+        
+        .contact-icon {
+            font-size: 28px;
+            color: var(--gold-secondary);
+            margin-right: 20px;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .map-container {
+            margin-top: 40px;
+            border: 3px solid var(--gold-primary);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 25px;
+            border-left: 4px solid var(--gold-primary);
+            z-index: 1;
+        }
+        
+        .map-title {
+            color: var(--gold-secondary);
+            margin-bottom: 5px;
+            font-size: 20px;
+        }
+        
+        .map-instruction {
+            color: var(--gold-light);
+            font-size: 16px;
+        }
+        
+        .hours-title {
+            color: var(--gold-secondary);
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-brown);
+            color: var(--gold-light);
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            color: var(--gold-primary);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            color: var(--gold-light);
+            font-size: 24px;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--gold-secondary);
+        }
+        
+        .footer-nav {
+            margin: 20px 0;
+        }
+        
+        .footer-nav a {
+            color: var(--gold-light);
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+        
+        .footer-nav a:hover {
+            color: var(--gold-secondary);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--gold-light);
+            opacity: 0.8;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .about-inner {
+                flex-direction: column;
+            }
+            
+            .contact-inner {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-overlay {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 15px;
+            }
+        }
+        
+        /* Page Switching */
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        #home-page {
+            display: block;
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">RESTAURANT NAME</div>
+            <nav>
+                <a href="#" class="active" onclick="showPage('home-page')">Home</a>
+                <a href="#" onclick="showPage('menu-page')">Menu</a>
+                <a href="#" onclick="showPage('contact-page')">Contact</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Restaurant Name</h1>
+                <p>Experience the epitome of fine dining with our exquisite cuisine</p>
+                <div>
+                    <a href="#" class="cta-button" onclick="showPage('menu-page')">View Menu</a>
+                    <a href="#" class="cta-button" onclick="showPage('contact-page')">Reserve a Table</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="about">
+            <div class="container">
+                <div class="about-inner">
+                    <div class="about-text">
+                        <h2 class="section-title">Our Story</h2>
+                        <p>Welcome to Restaurant Name, where culinary excellence meets elegant ambiance. Established in 2010, we have been serving the finest dishes crafted with passion and precision.</p>
+                        <p>Our chef brings over 20 years of experience from around the world, combining traditional techniques with innovative approaches to create a dining experience that is nothing short of extraordinary.</p>
+                        <p>We pride ourselves on using only the freshest, locally-sourced ingredients to ensure that every dish not only tantalizes your taste buds but also tells a story of quality and craftsmanship.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="/api/placeholder/500/400" alt="Restaurant interior">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="features">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h3 class="feature-title">Exquisite Cuisine</h3>
+                        <p>Our menu features a curated selection of dishes prepared with the finest ingredients, offering a blend of traditional flavors and contemporary culinary techniques.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-wine-glass-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Premium Beverages</h3>
+                        <p>Complement your meal with our extensive collection of wines, craft cocktails, and non-alcoholic beverages, carefully selected to enhance your dining experience.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-concierge-bell"></i>
+                        </div>
+                        <h3 class="feature-title">Impeccable Service</h3>
+                        <p>Our attentive staff is dedicated to providing personalized service, ensuring that your time with us is memorable, comfortable, and exceeds your expectations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Menu Page -->
+    <div id="menu-page" class="page">
+        <section class="menu-page">
+            <div class="container">
+                <h2 class="menu-title">Our Menu</h2>
+                
+                <div class="menu-section">
+                    <h3 class="section-title">Appetizers</h3>
+                    <div class="menu-items">
+                        <!-- Menu items as before -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Contact Page -->
+    <div id="contact-page" class="page">
+        <section class="contact-page">
+            <div class="container">
+                <h2 class="menu-title">Contact Us</h2>
+                
+                <div class="contact-inner">
+                    <div class="contact-info">
+                        <h3 class="section-title">Visit Us</h3>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div>
+                                    <p>123 Gourmet Avenue</p>
+                                    <p>Culinary District, City</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                                <div>(555)

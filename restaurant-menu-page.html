@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Name | Menu</title>
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-secondary: #FFD700;
+            --gold-light: #F5F5DC;
+            --dark-brown: #3A2718;
+            --cream: #FFF8E7;
+            --black: #000000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/api/placeholder/1200/800') center/cover fixed no-repeat;
+            color: var(--gold-light);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: rgba(0, 0, 0, 0.85);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            color: var(--gold-primary);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 15px;
+        }
+        
+        nav a {
+            color: var(--gold-light);
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--gold-secondary);
+            border-bottom: 2px solid var(--gold-secondary);
+        }
+        
+        /* Menu Page Styles */
+        .menu-banner {
+            height: 40vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/api/placeholder/1200/600') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+        
+        .menu-banner h1 {
+            font-size: 60px;
+            color: var(--gold-secondary);
+            text-shadow: 2px 2px 4px var(--black);
+            text-align: center;
+        }
+        
+        .menu-content {
+            padding: 120px 0 80px;
+        }
+        
+        .menu-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid var(--gold-primary);
+        }
+        
+        .menu-nav button {
+            background: none;
+            border: none;
+            color: var(--gold-light);
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .menu-nav button:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--gold-secondary);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        
+        .menu-nav button.active, .menu-nav button:hover {
+            color: var(--gold-secondary);
+        }
+        
+        .menu-nav button.active:after, .menu-nav button:hover:after {
+            width: 80%;
+        }
+        
+        .section-title {
+            font-size: 42px;
+            color: var(--gold-primary);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--gold-primary);
+        }
+        
+        .menu-section {
+            margin-bottom: 60px;
+            display: none;
+        }
+        
+        .menu-section.active {
+            display: block;
+        }
+        
+        .menu-description {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            font-style: italic;
+            color: var(--gold-light);
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 30px;
+        }
+        
+        .menu-item {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 5px;
+            border: 1px solid var(--gold-primary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--gold-primary);
+            padding-bottom: 10px;
+        }
+        
+        .menu-item-name {
+            font-size: 26px;
+            color: var(--gold-secondary);
+        }
+        
+        .menu-item-price {
+            font-size: 24px;
+            color: var(--gold-primary);
+            font-weight: bold;
+        }
+        
+        .menu-item-description {
+            color: var(--gold-light);
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .menu-item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .menu-item-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgba(212, 175, 55, 0.2);
+            border: 1px solid var(--gold-primary);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--gold-light);
+        }
+        
+        .chef-recommendation {
+            position: relative;
+        }
+        
+        .chef-recommendation::before {
+            content: 'Chef\'s Recommendation';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--gold-secondary);
+            color: var(--dark-brown);
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 3px;
+            transform: rotate(10deg);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/600') center/cover no-repeat;
+            padding: 80px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .cta-title {
+            font-size: 36px;
+            color: var(--gold-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .cta-text {
+            font-size: 18px;
+            color: var(--gold-light);
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--gold-primary);
+            color: var(--dark-brown);
+            padding: 15px 40px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--gold-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-brown);
+            color: var(--gold-light);
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            color: var(--gold-primary);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            color: var(--gold-light);
+            font-size: 24px;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--gold-secondary);
+        }
+        
+        .footer-nav {
+            margin: 20px 0;
+        }
+        
+        .footer-nav a {
+            color: var(--gold-light);
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+        
+        .footer-nav a:hover {
+            color: var(--gold-secondary);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--gold-light);
+            opacity: 0.8;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-banner h1 {
+                font-size: 40px;
+            }
+            
+            .menu-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .menu-nav button {
+                margin: 5px 0;
+            }
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">RESTAURANT NAME</div>
+            <nav>
+                <a href="restaurant-landing-page.html">Home</a>
+                <a href="restaurant-menu-page.html" class="active">Menu</a>
+                <a href="restaurant-contact-page.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="menu-content">
+        <div class="menu-banner">
+            <h1>Our Exquisite Menu</h1>
+        </div>
+        
+        <div class="container">
+            <div class="menu-nav">
+                <button class="menu-nav-btn active" data-target="appetizers">Appetizers</button>
+                <button class="menu-nav-btn" data-target="soups-salads">Soups & Salads</button>
+                <button class="menu-nav-btn" data-target="main-courses">Main Courses</button>
+                <button class="menu-nav-btn" data-target="seafood">Seafood</button>
+                <button class="menu-nav-btn" data-target="desserts">Desserts</button>
+                <button class="menu-nav-btn" data-target="beverages">Beverages</button>
+            </div>
+            
+            <!-- Appetizers Section -->
+            <div id="appetizers" class="menu-section active">
+                <h2 class="section-title">Appetizers</h2>
+                <p class="menu-description">Begin your culinary journey with our selection of exquisite appetizers, crafted to tantalize your taste buds and set the tone for an unforgettable dining experience.</p>
+                
+                <div class="menu-grid">
+                    <div class="menu-item chef-recommendation">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Truffle Arancini</div>
+                            <div class="menu-item-price">$18</div>
+                        </div>
+                        <div class="menu-item-description">Crispy risotto balls infused with black truffle, served with a saffron aioli and microgreens.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Vegetarian</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Seared Scallops</div>
+                            <div class="menu-item-price">$22</div>
+                        </div>
+                        <div class="menu-item-description">Pan-seared scallops with cauliflower purée, crispy pancetta, and herb oil.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Seafood</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Foie Gras Torchon</div>
+                            <div class="menu-item-price">$26</div>
+                        </div>
+                        <div class="menu-item-description">House-made foie gras torchon with brioche toast, fig jam, and port wine reduction.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Contains Gluten</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Heirloom Tomato Salad</div>
+                            <div class="menu-item-price">$16</div>
+                        </div>
+                        <div class="menu-item-description">Fresh heirloom tomatoes with burrata cheese, basil oil, aged balsamic, and toasted pine nuts.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Vegetarian</span>
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Beef Carpaccio</div>
+                            <div class="menu-item-price">$20</div>
+                        </div>
+                        <div class="menu-item-description">Thinly sliced prime beef with arugula, shaved parmesan, capers, and truffle vinaigrette.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Escargot en Croûte</div>
+                            <div class="menu-item-price">$24</div>
+                        </div>
+                        <div class="menu-item-description">Burgundy snails baked in garlic herb butter, encased in puff pastry with a parsley emulsion.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Contains Gluten</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soups & Salads Section -->
+            <div id="soups-salads" class="menu-section">
+                <h2 class="section-title">Soups & Salads</h2>
+                <p class="menu-description">Fresh, seasonal ingredients come together in our soups and salads, offering a perfect balance of flavors and textures.</p>
+                
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">French Onion Soup</div>
+                            <div class="menu-item-price">$14</div>
+                        </div>
+                        <div class="menu-item-description">Classic onion soup with caramelized onions, rich beef broth, crouton, and melted Gruyère cheese.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Contains Gluten</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item chef-recommendation">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Lobster Bisque</div>
+                            <div class="menu-item-price">$18</div>
+                        </div>
+                        <div class="menu-item-description">Creamy lobster soup with a touch of brandy, garnished with fresh lobster meat and chives.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Seafood</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Caesar Salad</div>
+                            <div class="menu-item-price">$15</div>
+                        </div>
+                        <div class="menu-item-description">Crisp romaine lettuce, house-made caesar dressing, parmesan crisps, and garlic croutons.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Contains Gluten</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Beet & Goat Cheese Salad</div>
+                            <div class="menu-item-price">$16</div>
+                        </div>
+                        <div class="menu-item-description">Roasted beets, whipped goat cheese, mixed greens, candied walnuts, and orange vinaigrette.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Vegetarian</span>
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                            <span class="menu-item-tag">Contains Nuts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Courses Section -->
+            <div id="main-courses" class="menu-section">
+                <h2 class="section-title">Main Courses</h2>
+                <p class="menu-description">Our main courses exemplify the height of culinary craftsmanship, featuring premium ingredients and exquisite preparation techniques.</p>
+                
+                <div class="menu-grid">
+                    <div class="menu-item chef-recommendation">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Filet Mignon</div>
+                            <div class="menu-item-price">$48</div>
+                        </div>
+                        <div class="menu-item-description">8oz prime beef tenderloin with truffle mashed potatoes, roasted asparagus, and red wine jus.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Rack of Lamb</div>
+                            <div class="menu-item-price">$46</div>
+                        </div>
+                        <div class="menu-item-description">Herb-crusted rack of lamb with rosemary polenta, ratatouille, and mint gremolata.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Duck Breast</div>
+                            <div class="menu-item-price">$42</div>
+                        </div>
+                        <div class="menu-item-description">Pan-seared duck breast with cherry port reduction, wild rice pilaf, and sautéed vegetables.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Gluten-Free</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Wild Mushroom Risotto</div>
+                            <div class="menu-item-price">$32</div>
+                        </div>
+                        <div class="menu-item-description">Arborio rice cooked with wild mushrooms, white wine, parmesan, and truffle essence.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Vegetarian</span>
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Veal Osso Buco</div>
+                            <div class="menu-item-price">$44</div>
+                        </div>
+                        <div class="menu-item-description">Slow-braised veal shank with saffron risotto, gremolata, and natural jus.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Chicken Ballotine</div>
+                            <div class="menu-item-price">$36</div>
+                        </div>
+                        <div class="menu-item-description">Stuffed chicken with wild mushrooms and herbs, served with potato purée and glazed vegetables.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seafood Section -->
+            <div id="seafood" class="menu-section">
+                <h2 class="section-title">Seafood</h2>
+                <p class="menu-description">Our seafood selection features the freshest catches prepared with techniques that enhance their natural flavors.</p>
+                
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Chilean Sea Bass</div>
+                            <div class="menu-item-price">$42</div>
+                        </div>
+                        <div class="menu-item-description">Pan-seared sea bass with saffron risotto, fennel confit, and champagne beurre blanc.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Seafood</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item chef-recommendation">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Lobster Thermidor</div>
+                            <div class="menu-item-price">$56</div>
+                        </div>
+                        <div class="menu-item-description">Classic lobster dish with a rich brandy cream sauce, Gruyère cheese, and duchess potatoes.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Seafood</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                            <span class="menu-item-tag">Contains Gluten</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Seared Scallops</div>
+                            <div class="menu-item-price">$38</div>
+                        </div>
+                        <div class="menu-item-description">Jumbo scallops with pea purée, crispy pancetta, and lemon butter sauce.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Seafood</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Grilled Branzino</div>
+                            <div class="menu-item-price">$40</div>
+                        </div>
+                        <div class="menu-item-description">Whole grilled European sea bass with Mediterranean vegetables, olive oil, and herbs.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Seafood</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Desserts Section -->
+            <div id="desserts" class="menu-section">
+                <h2 class="section-title">Desserts</h2>
+                <p class="menu-description">Complete your dining experience with our decadent desserts, each crafted with passion and precision by our pastry chef.</p>
+                
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Crème Brûlée</div>
+                            <div class="menu-item-price">$14</div>
+                        </div>
+                        <div class="menu-item-description">Classic vanilla bean custard with caramelized sugar crust and fresh berries.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Vegetarian</span>
+                            <span class="menu-item-tag">Gluten-Free</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item chef-recommendation">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Chocolate Soufflé</div>
+                            <div class="menu-item-price">$16</div>
+                        </div>
+                        <div class="menu-item-description">Warm chocolate soufflé with Grand Marnier crème anglaise (Please allow 20 minutes).</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Vegetarian</span>
+                            <span class="menu-item-tag">Contains Gluten</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Tiramisu</div>
+                            <div class="menu-item-price">$14</div>
+                        </div>
+                        <div class="menu-item-description">Traditional Italian dessert with espresso-soaked ladyfingers, mascarpone cream, and cocoa.</div>
+                        <div class="menu-item-tags">
+                            <span class="menu-item-tag">Vegetarian</span>
+                            <span class="menu-item-tag">Contains Gluten</span>
+                            <span class="menu-item-tag">Contains Dairy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Artisanal
